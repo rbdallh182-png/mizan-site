@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>لوحة ميزان</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#EAE3F6; --surface:#FFFFFF; --ink:#17121F; --muted:#4B4458; --line:#C9BADF;
+  --purple:#5B2E91; --purple-soft:#DDD2EF; --orange:#F28C28; --orange-ink:#8A4300;
+  --good:#1E6B4A; --bad:#A33A2B;
+  --display:'Readex Pro','IBM Plex Sans Arabic',system-ui,sans-serif;
+  --body:'IBM Plex Sans Arabic',system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.5;text-wrap:balance}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.55;cursor:default}
+:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.wrap{max-width:1160px;margin:0 auto;padding-block:20px 56px}
+.muted{color:var(--muted)}
+.badge{display:inline-flex;align-items:center;min-height:28px;padding:0 12px;border-radius:999px;background:var(--purple);color:#fff;font-weight:600;font-size:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border-radius:6px;border:1.5px solid var(--ink);background:transparent;font-weight:600}
+.btn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
+.btn.ok{background:var(--good);border-color:var(--good);color:#fff}
+.btn.no{border-color:var(--bad);color:var(--bad)}
+.btn.sm{min-height:40px;padding:0 14px;font-size:15px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font-weight:600;font-size:15px}
+.in{min-height:44px;padding:0 12px;border:1.5px solid var(--line);border-radius:6px;background:#fff;width:100%;min-width:0}
+textarea.in{min-height:84px;padding:10px 12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:24px}
+.topbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;padding-block:8px 20px}
+.who{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.brand{font-family:var(--display);font-weight:700;font-size:26px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.tab{min-height:44px;padding:0 18px;border-radius:6px;border:1.5px solid var(--line);background:var(--surface);font-weight:600}
+.tab[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.seg{display:flex;gap:8px}
+.seg .tab{flex:1}
+.grid{display:grid;gap:16px}
+.kpis{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:24px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px 20px;display:flex;flex-direction:column;gap:2px}
+.kpi b{font-family:var(--display);font-size:30px;line-height:1.3;font-variant-numeric:tabular-nums}
+.kpi span{color:var(--muted);font-size:15px}
+.two{grid-template-columns:repeat(auto-fit,minmax(320px,1fr));align-items:start}
+.bar{height:12px;border-radius:6px;background:var(--purple-soft);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--purple)}
+.bar.o i{background:var(--orange)}
+.row{display:flex;flex-direction:column;gap:4px;margin-bottom:14px}
+.row .l{display:flex;justify-content:space-between;gap:12px;font-size:15px;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:15px;font-variant-numeric:tabular-nums}
+th{text-align:right;padding:10px 12px;background:var(--purple-soft);font-weight:600;white-space:nowrap}
+td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:middle}
+td .in{min-height:40px;min-width:100px}
+.st{display:inline-block;padding:2px 10px;border-radius:999px;font-size:14px;font-weight:600;background:var(--purple-soft);color:var(--purple);white-space:nowrap}
+.st.done{background:#D5EBDF;color:var(--good)}
+.st.bad{background:#F3D9D4;color:var(--bad)}
+.st.new{background:#FBE3C8;color:var(--orange-ink)}
+.msg{border-radius:8px;padding:12px 16px;font-size:15px;margin-bottom:20px;border:1px solid var(--line);background:#fff}
+.msg.err{border-color:var(--bad);color:var(--bad);font-weight:600}
+.msg.ok{border-color:var(--good);color:var(--good);font-weight:600}
+.center{min-height:100vh;display:flex;align-items:center;justify-content:center;padding-block:32px}
+.center .card{width:100%;max-width:440px;display:flex;flex-direction:column;gap:16px}
+.addgrid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.yes{color:var(--good);font-weight:700}.nope{color:var(--muted)}
+.acts{display:flex;flex-wrap:wrap;gap:8px}
+[hidden]{display:none!important}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+(function(){
+"use strict";
+
+var SUPABASE_URL="https://cfbgialitsyfohcltqjk.supabase.co";
+var SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYmdpYWxpdHN5Zm9oY2x0cWprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM5NzAwMjUsImV4cCI6MjEwOTU0NjAyNX0.rYjZej_OSb8n7GHLrCpPqpNB9mrrBB2g4r4EVumH1Tc"; /* public anon key: safe to ship, access is enforced by the database */
+
+var POS={ceo:"CEO",manager:"Manager",assistant_manager:"Assistant Manager"};
+var STATUSES=["جديد","قيد التواصل","مقبول","قيد التنفيذ","مكتمل","مرفوض"];
+var MGR_STATUSES=["جديد","قيد التواصل","قيد التنفيذ","مكتمل"];
+var TABS={
+  ceo:[["analytics","تحليل التشغيل"],["requests","الطلبات"],["access","الموظفين وطلبات الدخول"],["perms","الصلاحيات"]],
+  manager:[["requests","الطلبات وتوزيع الشغل"]],
+  assistant_manager:[["work","جدول الشغل"]]
+};
+
+var sb=null;
+var S={booted:false,mode:"login",session:null,profile:null,tab:null,busy:false,msg:null,
+       requests:[],assistants:[],analytics:null,pending:[],users:[],tasks:[]};
+
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function num(n){return Number(n||0).toLocaleString("en-US");}
+function pct(a,b){return b>0?Math.round(a*100/b):0;}
+function stClass(s){return s==="مكتمل"?"done":s==="مرفوض"?"bad":s==="جديد"?"new":"";}
+function opts(list,sel,blank){
+  var h=blank?'<option value="">'+esc(blank)+'</option>':"";
+  list.forEach(function(o){h+='<option value="'+esc(o)+'"'+(o===sel?" selected":"")+'>'+esc(o)+'</option>';});
+  return h;
+}
+function arErr(e){
+  var m=(e&&e.message)||"";
+  if(/Invalid login credentials/i.test(m))return "الإيميل أو كلمة المرور غير صحيحة.";
+  if(/Email not confirmed/i.test(m))return "لازم تأكد الإيميل الأول من الرسالة اللي وصلتك.";
+  if(/already registered|already been registered/i.test(m))return "الإيميل ده مسجّل قبل كده. جرّب تسجيل الدخول.";
+  if(/Password should be/i.test(m))return "كلمة المرور لازم تكون 6 حروف أو أكتر.";
+  if(/rate limit/i.test(m))return "محاولات كتير. استنى شوية وجرّب تاني.";
+  if(/Failed to fetch|NetworkError/i.test(m))return "مفيش اتصال بالسيرفر. اتأكد من النت وجرّب تاني.";
+  return m||"حصل خطأ. جرّب تاني.";
+}
+function setMsg(type,text){S.msg=text?{type:type,text:text}:null;}
+function rpc(name,args){return sb.rpc(name,args||{}).then(function(r){if(r.error)throw r.error;return r.data;});}
+
+/* ---------- Data loading ---------- */
+function loadTab(){
+  var role=S.profile.role,t=S.tab,jobs=[];
+  if(t==="analytics")jobs.push(rpc("ceo_analytics").then(function(d){S.analytics=d;}));
+  if(t==="requests"){
+    jobs.push(rpc("manager_list_requests").then(function(d){S.requests=d||[];}));
+    jobs.push(rpc("manager_list_assistants").then(function(d){S.assistants=d||[];}));
+  }
+  if(t==="access"&&role==="ceo"){
+    jobs.push(rpc("ceo_pending_users").then(function(d){S.pending=d||[];}));
+    jobs.push(rpc("ceo_list_users").then(function(d){S.users=d||[];}));
+  }
+  if(t==="work")jobs.push(rpc("assistant_my_tasks").then(function(d){S.tasks=d||[];}));
+  S.busy=true;render();
+  return Promise.all(jobs).catch(function(e){setMsg("err",arErr(e));}).then(function(){S.busy=false;render();});
+}
+function loadProfile(){
+  return rpc("get_my_profile").then(function(p){
+    S.profile=p;
+    if(p.status==="active"&&TABS[p.role]){S.tab=S.tab&&TABS[p.role].some(function(x){return x[0]===S.tab;})?S.tab:TABS[p.role][0][0];return loadTab();}
+    render();
+  }).catch(function(e){setMsg("err",arErr(e));render();});
+}
+
+/* ---------- Views ---------- */
+function msgView(){return S.msg?'<div class="msg '+S.msg.type+'" role="alert">'+esc(S.msg.text)+'</div>':"";}
+
+function authView(){
+  var login=S.mode==="login";
+  var h='<div class="center"><form class="card" id="authForm" autocomplete="on"><div class="brand">ميزان</div>'+
+    '<h1 style="font-size:22px;font-weight:600">صلاحيات المرور</h1>'+
+    '<div class="seg"><button type="button" class="tab" data-act="mode" data-m="login" aria-pressed="'+login+'">دخول</button><button type="button" class="tab" data-act="mode" data-m="signup" aria-pressed="'+!login+'">طلب حساب</button></div>'+
+    msgView();
+  if(!login){
+    h+='<div class="field"><label for="fn">الاسم</label><input class="in" id="fn" autocomplete="name" required></div>'+
+       '<div class="field"><label for="rr">الوظيفة المطلوبة</label><select class="in" id="rr"><option value="manager">Manager</option><option value="assistant_manager">Assistant Manager</option></select></div>';
+  }
+  h+='<div class="field"><label for="em">الإيميل</label><input class="in" id="em" type="email" dir="ltr" style="text-align:right" autocomplete="email" required></div>'+
+     '<div class="field"><label for="pw">كلمة المرور</label><input class="in" id="pw" type="password" dir="ltr" style="text-align:right" minlength="6" autocomplete="'+(login?"current-password":"new-password")+'" required></div>'+
+     '<button class="btn primary" type="submit"'+(S.busy?" disabled":"")+'>'+(login?"دخول":"إرسال الطلب")+'</button>';
+  if(!login)h+='<p class="muted" style="margin:0;font-size:15px">الحساب بيتفعّل بعد موافقة الـ CEO.</p>';
+  return h+'</form></div>';
+}
+
+function holdView(){
+  var st=S.profile?S.profile.status:"";
+  var t=st==="rejected"?"تم رفض طلب الحساب.":st==="disabled"?"الحساب ده موقوف. تواصل مع الـ CEO.":"حسابك بانتظار موافقة الـ CEO.";
+  return '<div class="center"><div class="card"><div class="brand">ميزان</div><h1 style="font-size:20px;font-weight:600">'+t+'</h1>'+msgView()+
+    '<div class="acts"><button class="btn" data-act="refresh" type="button">تحديث الحالة</button><button class="btn no" data-act="logout" type="button">تسجيل الخروج</button></div></div></div>';
+}
+
+function topbar(){
+  return '<div class="topbar"><div class="who"><span class="brand">ميزان</span><span class="badge">'+esc(POS[S.profile.role])+'</span>'+
+    '<span class="muted">'+esc(S.profile.full_name||S.profile.email)+'</span></div>'+
+    '<div class="acts"><button class="btn sm" data-act="refresh" type="button">تحديث</button><button class="btn sm" data-act="logout" type="button">تسجيل الخروج</button></div></div>';
+}
+function tabsView(){
+  var h='<div class="tabs">';
+  TABS[S.profile.role].forEach(function(t){h+='<button class="tab" type="button" data-act="tab" data-tab="'+t[0]+'" aria-pressed="'+(S.tab===t[0])+'">'+t[1]+'</button>';});
+  return h+'</div>';
+}
+
+function analyticsView(){
+  var a=S.analytics; if(!a)return '<p class="muted">جاري التحميل...</p>';
+  var total=Number(a.total),val=Number(a.value_total),col=Number(a.collected_total);
+  var byS={};(a.by_status||[]).forEach(function(x){byS[x.status]=Number(x.count);});
+  var h='<div class="grid kpis">'+
+    '<div class="kpi"><b>'+total+'</b><span>إجمالي الطلبات</span></div>'+
+    '<div class="kpi"><b>'+(byS["قيد التنفيذ"]||0)+'</b><span>قيد التنفيذ</span></div>'+
+    '<div class="kpi"><b>'+(byS["مكتمل"]||0)+'</b><span>مكتملة</span></div>'+
+    '<div class="kpi"><b>'+Number(a.avg_progress)+'%</b><span>نسبة إنجاز التشغيل</span></div>'+
+    '<div class="kpi"><b>'+pct(col,val)+'%</b><span>نسبة التحصيل</span></div>'+
+    '<div class="kpi"><b>'+num(val-col)+'</b><span>المتبقي للتحصيل (جنيه)</span></div></div>';
+  h+='<div class="grid two"><section class="card"><h2 style="font-size:19px;margin-bottom:16px">حالة الطلبات</h2>';
+  STATUSES.forEach(function(s){var c=byS[s]||0;h+='<div class="row"><div class="l"><span>'+s+'</span><span>'+c+' ('+pct(c,total)+'%)</span></div><div class="bar"><i style="width:'+pct(c,total)+'%"></i></div></div>';});
+  h+='</section><section class="card"><h2 style="font-size:19px;margin-bottom:16px">التحصيل</h2>'+
+    '<div class="row"><div class="l"><span>تم تحصيله</span><span>'+num(col)+' من '+num(val)+' جنيه</span></div><div class="bar o"><i style="width:'+pct(col,val)+'%"></i></div></div>'+
+    '<p class="muted" style="margin:0;font-size:15px">محسوب على الطلبات غير المرفوضة.</p></section>';
+  h+='<section class="card"><h2 style="font-size:19px;margin-bottom:16px">الإنجاز لكل نوع عمل</h2>';
+  if(!(a.by_work_type||[]).length)h+='<p class="muted">لا توجد طلبات.</p>';
+  (a.by_work_type||[]).forEach(function(w){h+='<div class="row"><div class="l"><span>'+esc(w.work_type)+' ('+w.count+')</span><span>'+Number(w.avg_progress)+'%</span></div><div class="bar"><i style="width:'+Number(w.avg_progress)+'%"></i></div></div>';});
+  h+='</section><section class="card"><h2 style="font-size:19px;margin-bottom:16px">الشغل على كل Assistant Manager</h2>';
+  if(!(a.by_assistant||[]).length)h+='<p class="muted">لا يوجد Assistant Manager نشط.</p>';
+  (a.by_assistant||[]).forEach(function(x){h+='<div class="row"><div class="l"><span>'+esc(x.full_name||"بدون اسم")+'</span><span>'+x.active_tasks+' شغل جاري</span></div><div class="bar o"><i style="width:'+Math.min(100,Number(x.active_tasks)*34)+'%"></i></div></div>';});
+  return h+'</section></div>';
+}
+
+function requestsView(){
+  var ceo=S.profile.role==="ceo";
+  var h='<form class="card" id="addForm" style="margin-bottom:24px"><h2 style="font-size:19px;margin-bottom:14px">استقبال طلب جديد</h2><div class="addgrid">'+
+    '<div class="field"><label for="a1">اسم العميل</label><input class="in" id="a1" required></div>'+
+    '<div class="field"><label for="a2">رقم التليفون</label><input class="in" id="a2" dir="ltr" style="text-align:right" required></div>'+
+    '<div class="field"><label for="a3">اسم المطعم أو الكافيه</label><input class="in" id="a3"></div>'+
+    '<div class="field"><label for="a4">نوع العمل</label><input class="in" id="a4" required></div>'+
+    '<div class="field"><label for="a5">موقع العمل</label><input class="in" id="a5" required></div>'+
+    '<div class="field" style="grid-column:1/-1"><label for="a6">تفاصيل</label><textarea class="in" id="a6"></textarea></div>'+
+    '</div><div style="margin-top:16px"><button class="btn primary" type="submit"'+(S.busy?" disabled":"")+'>إضافة الطلب</button></div></form>';
+  h+='<div class="scroll"><table><thead><tr><th>#</th><th>العميل</th><th>التليفون</th><th>النشاط</th><th>نوع العمل</th><th>الموقع</th><th>الحالة</th><th>الـ Assistant</th><th>الإنجاز %</th>';
+  if(ceo)h+='<th>القيمة</th><th>المحصّل</th><th></th>';
+  h+='</tr></thead><tbody>';
+  if(!S.requests.length)h+='<tr><td colspan="'+(ceo?12:9)+'" class="muted">لا توجد طلبات لسه.</td></tr>';
+  S.requests.forEach(function(r){
+    var list=ceo?STATUSES:MGR_STATUSES.concat(r.status==="مقبول"?["مقبول"]:[]);
+    var lock=!ceo&&r.status==="مرفوض";
+    h+='<tr><td>'+r.id+'</td><td>'+esc(r.customer_name)+'</td><td dir="ltr" style="text-align:right">'+esc(r.phone)+'</td><td>'+esc(r.business_name||"-")+'</td><td>'+esc(r.work_type)+'</td><td>'+esc(r.work_location)+'</td>';
+    h+='<td>'+(lock?'<span class="st bad">مرفوض</span>':'<select class="in" data-f="status" data-id="'+r.id+'" aria-label="الحالة">'+opts(list.indexOf(r.status)<0?list.concat([r.status]):list,r.status)+'</select>')+'</td>';
+    h+='<td><select class="in" data-f="assign" data-id="'+r.id+'" aria-label="الـ Assistant">'+
+      '<option value="">'+(r.assigned_name?"":"بدون تعيين")+'</option>'+
+      S.assistants.map(function(a){return '<option value="'+esc(a.id)+'"'+(a.id===r.assigned_to?" selected":"")+'>'+esc(a.full_name||a.id)+'</option>';}).join("")+'</select></td>';
+    h+='<td><input class="in" type="number" min="0" max="100" data-f="progress" data-id="'+r.id+'" value="'+Number(r.progress||0)+'" aria-label="الإنجاز"></td>';
+    if(ceo)h+='<td><input class="in" type="number" min="0" id="v'+r.id+'" value="'+Number(r.value||0)+'" aria-label="القيمة"></td>'+
+      '<td><input class="in" type="number" min="0" id="c'+r.id+'" value="'+Number(r.collected||0)+'" aria-label="المحصّل"></td>'+
+      '<td><button class="btn sm" type="button" data-act="fin" data-id="'+r.id+'">حفظ</button></td>';
+    h+='</tr>';
+  });
+  return h+'</tbody></table></div>';
+}
+
+function accessView(){
+  var h='<h2 style="font-size:19px;margin-bottom:12px">طلبات دخول جديدة</h2><div class="scroll" style="margin-bottom:28px"><table style="min-width:560px"><thead><tr><th>الاسم</th><th>الإيميل</th><th>الوظيفة المطلوبة</th><th>القرار</th></tr></thead><tbody>';
+  if(!S.pending.length)h+='<tr><td colspan="4" class="muted">لا توجد طلبات معلّقة.</td></tr>';
+  S.pending.forEach(function(p){
+    h+='<tr><td>'+esc(p.full_name)+'</td><td dir="ltr" style="text-align:right">'+esc(p.email)+'</td><td><select class="in" id="pr'+esc(p.id)+'">'+
+      '<option value="manager"'+(p.requested_role==="manager"?" selected":"")+'>Manager</option><option value="assistant_manager"'+(p.requested_role==="assistant_manager"?" selected":"")+'>Assistant Manager</option></select></td>'+
+      '<td><div class="acts"><button class="btn ok sm" type="button" data-act="rev" data-id="'+esc(p.id)+'" data-v="1">قبول</button><button class="btn no sm" type="button" data-act="rev" data-id="'+esc(p.id)+'" data-v="0">رفض</button></div></td></tr>';
+  });
+  h+='</tbody></table></div><h2 style="font-size:19px;margin-bottom:12px">الموظفين</h2><div class="scroll"><table style="min-width:620px"><thead><tr><th>الاسم</th><th>الإيميل</th><th>الوظيفة</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody>';
+  if(!S.users.length)h+='<tr><td colspan="5" class="muted">لا يوجد موظفين.</td></tr>';
+  S.users.forEach(function(u){
+    var isC=u.role==="ceo";
+    h+='<tr><td>'+esc(u.full_name)+'</td><td dir="ltr" style="text-align:right">'+esc(u.email)+'</td><td>'+esc(POS[u.role]||"قيد الانتظار")+'</td><td><span class="st '+(u.status==="active"?"done":u.status==="pending"?"new":"bad")+'">'+esc({active:"نشط",pending:"قيد الانتظار",rejected:"مرفوض",disabled:"موقوف"}[u.status]||u.status)+'</span></td><td>';
+    if(!isC&&u.status==="active")h+='<div class="acts"><select class="in" data-f="role" data-id="'+esc(u.id)+'" aria-label="تغيير الوظيفة" style="min-width:150px"><option value="manager"'+(u.role==="manager"?" selected":"")+'>Manager</option><option value="assistant_manager"'+(u.role==="assistant_manager"?" selected":"")+'>Assistant Manager</option></select><button class="btn no sm" type="button" data-act="usr" data-id="'+esc(u.id)+'" data-v="disable">إيقاف</button></div>';
+    else if(!isC&&(u.status==="disabled"||u.status==="rejected"&&u.role!=="pending"))h+='<button class="btn sm" type="button" data-act="usr" data-id="'+esc(u.id)+'" data-v="activate">تفعيل</button>';
+    else h+='<span class="muted">-</span>';
+    h+='</td></tr>';
+  });
+  return h+'</tbody></table></div>';
+}
+
+function permsView(){
+  var P=[["تحليل التشغيل بالكامل",1,0,0],["قبول أو رفض طلبات دخول الموظفين",1,0,0],["قبول أو رفض طلبات العملاء",1,0,0],["القيمة والتحصيل (الماليات)",1,0,0],["استقبال الطلب وجمع بيانات العميل",1,1,0],["توزيع الشغل على الموظفين",1,1,0],["رؤية موقع العمل ونوعه",1,1,1],["رؤية بيانات العميل",1,1,0]];
+  var h='<div class="scroll"><table style="min-width:520px"><thead><tr><th>الصلاحية</th><th>CEO</th><th>Manager</th><th>Assistant Manager</th></tr></thead><tbody>';
+  P.forEach(function(p){h+='<tr><td>'+p[0]+'</td>'+[1,2,3].map(function(i){return '<td>'+(p[i]?'<span class="yes">مسموح</span>':'<span class="nope">غير مسموح</span>')+'</td>';}).join("")+'</tr>';});
+  return h+'</tbody></table></div>';
+}
+
+function workView(){
+  var h='<div class="scroll"><table style="min-width:420px"><thead><tr><th>موقع العمل</th><th>نوع العمل</th></tr></thead><tbody>';
+  if(!S.tasks.length)h+='<tr><td colspan="2" class="muted">لا يوجد شغل متوزّع عليك لسه.</td></tr>';
+  S.tasks.forEach(function(t){h+='<tr><td>'+esc(t.work_location)+'</td><td>'+esc(t.work_type)+'</td></tr>';});
+  return h+'</tbody></table></div>';
+}
+
+function appView(){
+  var b="";
+  switch(S.tab){case "analytics":b=analyticsView();break;case "requests":b=requestsView();break;case "access":b=accessView();break;case "perms":b=permsView();break;case "work":b=workView();break;}
+  return '<div class="wrap">'+topbar()+tabsView()+msgView()+b+'</div>';
+}
+
+function render(){
+  var el=document.getElementById("app"),h;
+  if(!S.booted)h='<div class="center"><p class="muted">جاري التحميل...</p></div>';
+  else if(!S.session)h=authView();
+  else if(!S.profile)h='<div class="center"><div class="card">'+msgView()+'<p class="muted">جاري تحميل الحساب...</p><button class="btn no" data-act="logout" type="button">تسجيل الخروج</button></div></div>';
+  else if(S.profile.status!=="active"||!TABS[S.profile.role])h=holdView();
+  else h=appView();
+  el.innerHTML=h;
+}
+
+/* ---------- Actions ---------- */
+function act(p){S.busy=true;setMsg(null);return p.then(function(){return null;},function(e){setMsg("err",arErr(e));}).then(function(){S.busy=false;return S.profile&&S.profile.status==="active"?loadTab():render();});}
+
+var app=document.getElementById("app");
+
+app.addEventListener("submit",function(e){
+  e.preventDefault();
+  var g=function(id){var x=document.getElementById(id);return x?x.value.trim():"";};
+  if(e.target.id==="authForm"){
+    var email=g("em"),pw=document.getElementById("pw").value;
+    S.busy=true;setMsg(null);render();
+    var p;
+    if(S.mode==="login")p=sb.auth.signInWithPassword({email:email,password:pw});
+    else p=sb.auth.signUp({email:email,password:pw,options:{data:{full_name:g("fn"),requested_role:g("rr")}}});
+    p.then(function(r){
+      if(r.error)throw r.error;
+      S.busy=false;
+      if(r.data&&r.data.session){S.session=r.data.session;return loadProfile();}
+      setMsg("ok","اتبعت طلبك. لو وصلتك رسالة تأكيد على الإيميل اضغط عليها، وبعدها استنى موافقة الـ CEO.");S.mode="login";render();
+    }).catch(function(er){S.busy=false;setMsg("err",arErr(er));render();});
+  }
+  if(e.target.id==="addForm"){
+    act(rpc("submit_customer_request",{p_customer_name:g("a1"),p_phone:g("a2"),p_business_name:g("a3"),p_work_type:g("a4"),p_work_location:g("a5"),p_details:g("a6")}).then(function(){setMsg("ok","تمت إضافة الطلب.");}));
+  }
+});
+
+app.addEventListener("click",function(e){
+  var t=e.target.closest("[data-act]");if(!t)return;
+  var a=t.getAttribute("data-act"),id=t.getAttribute("data-id");
+  if(a==="mode"){S.mode=t.getAttribute("data-m");setMsg(null);render();}
+  if(a==="logout"){sb.auth.signOut().then(function(){S.session=null;S.profile=null;S.tab=null;setMsg(null);render();});}
+  if(a==="refresh"){setMsg(null);loadProfile();}
+  if(a==="tab"){S.tab=t.getAttribute("data-tab");setMsg(null);loadTab();}
+  if(a==="fin")act(rpc("ceo_update_request_finance",{p_request_id:+id,p_value:Number(document.getElementById("v"+id).value)||0,p_collected:Number(document.getElementById("c"+id).value)||0}).then(function(){setMsg("ok","تم حفظ الماليات.");}));
+  if(a==="rev"){
+    var ok=t.getAttribute("data-v")==="1",role=document.getElementById("pr"+id).value;
+    act(rpc("ceo_review_access_request",{p_user_id:id,p_approved:ok,p_role:role}).then(function(){setMsg("ok",ok?"تم قبول الحساب.":"تم رفض الطلب.");}));
+  }
+  if(a==="usr")act(rpc("ceo_manage_user",{p_user_id:id,p_action:t.getAttribute("data-v")}));
+});
+
+app.addEventListener("change",function(e){
+  var el=e.target,f=el.getAttribute("data-f");if(!f)return;
+  var id=el.getAttribute("data-id");
+  if(f==="status")act(rpc("manager_update_request_status",{p_request_id:+id,p_status:el.value}));
+  if(f==="progress")act(rpc("manager_update_request_progress",{p_request_id:+id,p_progress:Math.round(Number(el.value))}));
+  if(f==="assign"&&el.value)act(rpc("manager_assign_task",{p_request_id:+id,p_assistant_user_id:el.value}).then(function(){setMsg("ok","تم توزيع الشغل.");}));
+  if(f==="role")act(rpc("ceo_manage_user",{p_user_id:id,p_action:"change_role",p_role:el.value}));
+});
+
+/* ---------- Boot ---------- */
+function boot(){
+  if(!window.supabase){S.booted=true;setMsg("err","تعذّر تحميل مكتبة الدخول. اتأكد من النت وحدّث الصفحة.");render();return;}
+  sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+  sb.auth.getSession().then(function(r){
+    S.booted=true;S.session=r.data.session;
+    if(S.session)return loadProfile();
+    render();
+  }).catch(function(e){S.booted=true;setMsg("err",arErr(e));render();});
+}
+render();boot();
+})();
+</script>
+</body>
+</html>
