@@ -1,0 +1,112 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#2B1450"><link rel="icon" href="logo.svg" type="image/svg+xml">
+<title>حاسبة تكلفة الطبق والمشروب | ميزان</title><meta name="description" content="احسب تكلفة طبقك أو مشروبك بنفسك: تكلفة الخامات، نسبة التكلفة، الهامش والسعر المقترح. اشتراك 100 جنيه لكل 20 طبق.">
+<link rel="canonical" href="https://rbdallh182-png.github.io/mizan-site/tool.html">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600&family=Noto+Kufi+Arabic:wght@700;800&display=swap">
+<style>
+:root{--plum:#2B1450;--pur:#5B2E91;--or:#F28C28;--lav:#EFE9F8;--ink:#1D1527;--mut:#5A5068}
+*{box-sizing:border-box}body{margin:0;background:#FBF9FE;color:var(--ink);font:17px/1.8 "IBM Plex Sans Arabic",system-ui,Tahoma,sans-serif}
+.top{background:var(--plum);padding:12px 20px;display:flex;justify-content:space-between;align-items:center}.top a{color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:10px;font:800 22px "Noto Kufi Arabic",system-ui,sans-serif}.top img{width:56px;height:auto}.top .back{font:600 15px "IBM Plex Sans Arabic";opacity:.85}
+.wrap{width:min(760px,100% - 32px);margin:28px auto 60px}
+h1{font:800 clamp(1.5rem,4.5vw,2.2rem)/1.5 "Noto Kufi Arabic",system-ui,sans-serif;margin:0 0 6px;color:var(--plum)}h2{font:700 1.15rem/1.6 "Noto Kufi Arabic",system-ui,sans-serif;margin:0 0 10px;color:var(--pur)}
+.lead{color:var(--mut);margin:0 0 18px}
+.card{background:#fff;border:1px solid #e6dced;border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 8px 28px -18px rgba(43,20,80,.35)}
+.price{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,var(--plum),var(--pur));color:#fff;border-radius:18px;padding:18px 20px;margin-bottom:16px}.price b{font:800 2rem "Noto Kufi Arabic";color:var(--or)}.price span{opacity:.92}
+label{display:block;font-weight:600;font-size:.95rem;margin:10px 0 4px}
+input,textarea,select{width:100%;font:inherit;padding:11px 13px;border:1.5px solid #d9cde8;border-radius:12px;background:#fff;color:var(--ink)}input:focus{outline:3px solid rgba(91,46,145,.25);border-color:var(--pur)}
+.btn{display:inline-block;border:0;cursor:pointer;font:700 1rem "IBM Plex Sans Arabic";padding:12px 22px;border-radius:12px;background:var(--pur);color:#fff;text-decoration:none;text-align:center}.btn:disabled{opacity:.55;cursor:wait}.btn.or{background:var(--or);color:#1D1527}.btn.gh{background:transparent;color:var(--pur);border:2px solid var(--pur)}.btn.wa{background:#25D366;color:#073b1a}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1;min-width:120px}
+.msg{padding:11px 14px;border-radius:12px;margin:12px 0;font-weight:600}.msg.err{background:#fde8e8;color:#8a1f1f}.msg.ok{background:#e6f6ec;color:#17603a}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.ing{border:1px solid #e6dced;border-radius:14px;padding:12px;margin-bottom:10px;background:#FBF9FE}.ing .g{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.ing .g label{margin:6px 0 2px;font-size:.85rem}.ing .nm{margin-bottom:2px}.ing .x{float:left;background:none;border:0;color:#b02a2a;font-size:20px;cursor:pointer;line-height:1}
+@media(max-width:480px){.ing .g{grid-template-columns:1fr 1fr}.ing .g div:first-child{grid-column:1/-1}}
+.bal{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:var(--lav);border-radius:14px;padding:12px 16px;margin-bottom:16px}.bal b{font-size:1.3rem;color:var(--plum)}
+.res{border:2px solid var(--pur);border-radius:18px;padding:18px;background:#fff;margin-top:16px}.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:10px 0}.kpi{background:var(--lav);border-radius:12px;padding:10px 12px}.kpi small{display:block;color:var(--mut);font-size:.82rem}.kpi b{font:800 1.3rem "Noto Kufi Arabic";color:var(--plum)}.kpi.hi b{color:var(--or)}
+.note{font-size:.88rem;color:var(--mut)}table{width:100%;border-collapse:collapse;font-size:.95rem}th,td{padding:8px 6px;border-bottom:1px solid #eee5f4;text-align:right}th{color:var(--mut);font-weight:600}.scroll{overflow-x:auto}
+.foot{text-align:center;color:#8A7AA8;font-size:.9rem;padding:20px}.tabs{display:flex;gap:8px;margin-bottom:14px}.tabs button{flex:1}
+.hide{display:none}
+</style></head><body>
+<div class="top"><a href="./"><img src="logo.svg" alt="">ميزان</a><a class="back" href="./">← الموقع</a></div>
+<main class="wrap">
+<h1>حاسبة تكلفة الطبق أو المشروب</h1>
+<p class="lead">اكتب خامات الطبق وأسعارها، وهي تحسبلك التكلفة الحقيقية ونسبتها من سعر البيع والسعر المقترح.</p>
+<div id="app"><p class="note">جاري التحميل...</p></div>
+</main>
+<div class="foot">© 2026 ميزان · <a href="./" style="color:inherit">الرئيسية</a></div>
+<script>
+(function(){
+"use strict";
+var URL_="https://cfbgialitsyfohcltqjk.supabase.co",KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmYmdpYWxpdHN5Zm9oY2x0cWprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM5NzAwMjUsImV4cCI6MjEwOTU0NjAyNX0.rYjZej_OSb8n7GHLrCpPqpNB9mrrBB2g4r4EVumH1Tc",WA="201035458775",CK="mz-tool-code";
+var S={info:{price:100,dishes:20,pay_text:""},code:null,st:null,msg:null,busy:false,res:null,sub:null,rows:[],mode:"sub"};
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function num(n){return Number(n||0).toLocaleString("en-US",{maximumFractionDigits:2});}
+function rpc(fn,args){return fetch(URL_+"/rest/v1/rpc/"+fn,{method:"POST",headers:{"apikey":KEY,"Authorization":"Bearer "+KEY,"Content-Type":"application/json"},body:JSON.stringify(args||{})}).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j&&j.message||"حصل خطأ");return j;});});}
+function err(e){var m=String(e&&e.message||e);return /Failed to fetch|NetworkError|Load failed/i.test(m)?"مفيش اتصال بالإنترنت. جرّب تاني.":m;}
+function lsGet(){try{return localStorage.getItem(CK);}catch(e){return null;}}
+function lsSet(v){try{if(v)localStorage.setItem(CK,v);else localStorage.removeItem(CK);}catch(e){}}
+function newRow(){return {n:"",price:"",buy:"",use:""};}
+function msg(){return S.msg?'<div class="msg '+S.msg.t+'" role="alert">'+esc(S.msg.x)+'</div>':"";}
+function setMsg(t,x){S.msg=x?{t:t,x:x}:null;}
+
+function pubView(){
+  var i=S.info,h='<div class="price"><b>'+num(i.price)+' ج</b><span>= '+i.dishes+' طبق أو مشروب. تحسب بيهم أي عدد خامات، وتحفظهم.</span></div>';
+  h+='<div class="tabs"><button class="btn '+(S.mode==="sub"?"":"gh")+'" data-a="m" data-v="sub" type="button">اشترك</button><button class="btn '+(S.mode==="code"?"":"gh")+'" data-a="m" data-v="code" type="button">عندي كود</button></div>'+msg();
+  if(S.mode==="code"){
+    h+='<form class="card" id="fCode"><h2>ادخل كودك</h2><label for="c1">الكود (MZ-XXXX-XXXX)</label><input id="c1" dir="ltr" autocomplete="off" autocapitalize="characters" placeholder="MZ-ABCD-2345" required><div style="margin-top:14px"><button class="btn" type="submit"'+(S.busy?" disabled":"")+'>دخول</button></div></form>';
+  }else if(S.sub){
+    var u=S.sub;
+    h+='<div class="card"><h2>تم استلام طلبك ✅</h2><p>رقم طلبك: <b>#'+u.id+'</b><br>المبلغ المطلوب: <b>'+num(u.amount)+' جنيه</b> ('+u.packages+' باقة = '+u.dishes+' طبق)</p>'+(i.pay_text?'<div class="msg ok" style="white-space:pre-wrap">'+esc(i.pay_text)+'</div>':'<p>هنبعتلك طريقة الدفع على واتساب.</p>')+'<p>بعد التحويل ابعت صورة الإيصال على واتساب وإحنا هنفعّل اشتراكك ونبعتلك الكود.</p><a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/'+WA+'?text='+encodeURIComponent("أهلاً ميزان، أنا "+u.name+". طلب اشتراك حاسبة رقم #"+u.id+" بمبلغ "+u.amount+" جنيه. دي صورة إيصال التحويل:")+'">ابعت الإيصال على واتساب</a></div>';
+  }else{
+    h+='<form class="card" id="fSub"><h2>اشترك في الحاسبة</h2><div class="hp" aria-hidden="true"><label>ملاحظة<input id="hp" tabindex="-1" autocomplete="off"></label></div><label for="s1">الاسم</label><input id="s1" autocomplete="name" required maxlength="100"><label for="s2">رقم التليفون (واتساب)</label><input id="s2" type="tel" dir="ltr" autocomplete="tel" placeholder="01XXXXXXXXX" required><label for="s3">عدد الباقات ('+i.dishes+' طبق لكل باقة)</label><select id="s3">'+[1,2,3,4,5,10].map(function(n){return '<option value="'+n+'">'+n+' باقة — '+num(n*i.price)+' جنيه — '+n*i.dishes+' طبق</option>';}).join("")+'</select><div style="margin-top:14px"><button class="btn or" type="submit"'+(S.busy?" disabled":"")+'>ابعت طلب الاشتراك</button></div><p class="note" style="margin-top:10px">الدفع بتحويل على المحفظة/الكارت اللي هيظهرلك بعد الطلب، وبنفعّل اشتراكك بعد التأكد من التحويل.</p></form>';
+  }
+  return h;
+}
+function rowHtml(r,i){
+  return '<div class="ing"><button class="x" type="button" data-a="rm" data-i="'+i+'" aria-label="حذف الخامة">×</button><div class="nm"><label>الخامة '+(i+1)+'</label><input data-i="'+i+'" data-k="n" value="'+esc(r.n)+'" maxlength="60" placeholder="مثال: لحمة مفرومة"></div><div class="g"><div><label>سعر الشراء (ج)</label><input data-i="'+i+'" data-k="price" inputmode="decimal" value="'+esc(r.price)+'" placeholder="320"></div><div><label>الكمية المشتراة</label><input data-i="'+i+'" data-k="buy" inputmode="decimal" value="'+esc(r.buy)+'" placeholder="1000"></div><div><label>الكمية المستخدمة</label><input data-i="'+i+'" data-k="use" inputmode="decimal" value="'+esc(r.use)+'" placeholder="150"></div></div></div>';
+}
+function appViewIn(){
+  var st=S.st,h='<div class="bal"><span>أهلاً '+esc(st.name)+' — الرصيد: <b>'+st.left+'</b> من '+st.total+' طبق</span><button class="btn gh" type="button" data-a="out" style="padding:8px 14px">خروج</button></div>'+msg();
+  if(st.left<1)h+='<div class="msg err">رصيدك خلص. للتجديد ابعت لنا على واتساب.</div><a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/'+WA+'?text='+encodeURIComponent("أريد تجديد اشتراك الحاسبة. كودي: "+S.code)+'">جدّد على واتساب</a>';
+  h+='<form class="card" id="fCalc"><h2>احسب طبق أو مشروب جديد</h2><label for="d1">اسم الطبق أو المشروب</label><input id="d1" maxlength="80" required placeholder="مثال: برجر كلاسيك" value="'+esc(S.dn||"")+'"><p class="note" style="margin:8px 0 0">اكتب الكمية المشتراة والمستخدمة بنفس الوحدة (جرام، لتر، قطعة...).</p><div style="margin-top:10px">'+S.rows.map(rowHtml).join("")+'</div>'+(S.rows.length<15?'<button class="btn gh" type="button" data-a="add">+ خامة</button>':"")+'<div class="row" style="margin-top:6px"><div><label for="d2">نسبة الهالك %</label><input id="d2" inputmode="decimal" value="'+esc(S.dw==null?"0":S.dw)+'"></div><div><label for="d3">سعر البيع (ج)</label><input id="d3" inputmode="decimal" value="'+esc(S.ds||"")+'" placeholder="اختياري"></div><div><label for="d4">نسبة التكلفة المستهدفة %</label><input id="d4" inputmode="decimal" value="'+esc(S.dt==null?"30":S.dt)+'"></div></div><div style="margin-top:14px"><button class="btn or" type="submit"'+(S.busy||st.left<1?" disabled":"")+'>احسب واحفظ (بيستهلك طبق واحد)</button></div></form>';
+  if(S.res){var r=S.res;h+='<div class="res" id="res"><h2>'+esc(r.name)+'</h2><div class="kpis"><div class="kpi"><small>تكلفة الخامات</small><b>'+num(r.cost)+' ج</b></div><div class="kpi"><small>نسبة التكلفة من سعر البيع</small><b>'+(r.pct==null?"—":num(r.pct)+"%")+'</b></div><div class="kpi"><small>الهامش للطبق</small><b>'+(r.margin==null?"—":num(r.margin)+" ج")+'</b></div><div class="kpi hi"><small>السعر المقترح</small><b>'+num(r.suggested)+' ج</b></div></div><p class="note">الحساب للخامات فقط، من غير إيجار وعمالة وضرائب. فهو بيعرّفك الهامش الإجمالي مش الربح الصافي.</p></div>';}
+  var D=st.dishes||[];
+  h+='<div class="card" style="margin-top:16px"><h2>أطباقك المحفوظة ('+D.length+')</h2>';
+  if(!D.length)h+='<p class="note">لسه ماحسبتش أي طبق.</p>';else{h+='<div class="scroll"><table><thead><tr><th>الطبق</th><th>التكلفة</th><th>النسبة</th><th>سعر البيع</th><th>المقترح</th></tr></thead><tbody>';D.forEach(function(d){h+='<tr><td>'+esc(d.name)+'</td><td>'+num(d.cost)+'</td><td>'+(d.cost_pct==null?"—":num(d.cost_pct)+"%")+'</td><td>'+(Number(d.sell)>0?num(d.sell):"—")+'</td><td>'+num(d.suggested)+'</td></tr>';});h+='</tbody></table></div>';}
+  return h+'<p class="note" style="margin-top:10px">بياناتك محفوظة تحت كودك ومحدش يشوفها غيرك وفريق ميزان.</p></div>';
+}
+function render(){var f=document.activeElement&&document.activeElement.id;var el=document.getElementById("app");el.innerHTML=S.st?appViewIn():pubView();}
+function login(code,silent){
+  S.busy=true;setMsg(null);if(!silent)render();
+  return rpc("tool_status",{p_code:code}).then(function(st){S.st=st;S.code=st.code;lsSet(st.code);if(!S.rows.length)S.rows=[newRow(),newRow()];}).catch(function(e){if(silent)lsSet(null);setMsg("err",err(e));}).then(function(){S.busy=false;render();});
+}
+var app=document.getElementById("app");
+function gv(id){var x=document.getElementById(id);return x?x.value.trim():"";}
+function n(v){return Number(String(v).replace(/[٠-٩]/g,function(d){return "٠١٢٣٤٥٦٧٨٩".indexOf(d);}).replace(/٫/g,".").replace(/,/g,"."));}
+app.addEventListener("input",function(e){var t=e.target,i=t.getAttribute("data-i");if(i!=null&&S.rows[+i])S.rows[+i][t.getAttribute("data-k")]=t.value;});
+app.addEventListener("click",function(e){
+  var t=e.target.closest("[data-a]");if(!t)return;var a=t.getAttribute("data-a");
+  if(a==="m"){S.mode=t.getAttribute("data-v");S.sub=null;setMsg(null);render();}
+  if(a==="add"&&S.rows.length<15){S.rows.push(newRow());syncTop();render();}
+  if(a==="rm"){S.rows.splice(+t.getAttribute("data-i"),1);if(!S.rows.length)S.rows.push(newRow());syncTop();render();}
+  if(a==="out"){lsSet(null);S.st=null;S.code=null;S.res=null;S.mode="code";setMsg(null);render();}
+});
+function syncTop(){S.dn=gv("d1");S.dw=gv("d2");S.ds=gv("d3");S.dt=gv("d4");}
+app.addEventListener("submit",function(e){
+  e.preventDefault();var id=e.target.id;
+  if(id==="fCode")login(gv("c1"));
+  if(id==="fSub"){
+    S.busy=true;setMsg(null);var nm=gv("s1");
+    rpc("tool_request_subscription",{p_name:nm,p_phone:gv("s2"),p_packages:+gv("s3"),p_hp:gv("hp")}).then(function(r){r.name=nm;S.sub=r;}).catch(function(er){setMsg("err",err(er));}).then(function(){S.busy=false;render();});
+    render();
+  }
+  if(id==="fCalc"){
+    syncTop();
+    var items=S.rows.map(function(r){return {n:r.n,price:n(r.price),buy:n(r.buy),use:n(r.use)};}).filter(function(r){return r.price>0&&r.buy>0&&r.use>0;});
+    if(!items.length){setMsg("err","اكتب سعر وكمية مشتراة وكمية مستخدمة لخامة واحدة على الأقل.");render();return;}
+    S.busy=true;setMsg(null);
+    rpc("tool_calc",{p_code:S.code,p_name:S.dn,p_items:items,p_waste:n(S.dw||0)||0,p_sell:n(S.ds||0)||0,p_target:n(S.dt||30)||30}).then(function(r){S.res=r;S.dn="";S.ds="";S.rows=[newRow(),newRow()];return rpc("tool_status",{p_code:S.code}).then(function(st){S.st=st;});}).catch(function(er){setMsg("err",err(er));}).then(function(){S.busy=false;render();var r=document.getElementById("res");if(r&&r.scrollIntoView)r.scrollIntoView({behavior:"smooth",block:"start"});});
+    render();
+  }
+});
+rpc("tool_info").then(function(i){S.info=i;}).catch(function(){}).then(function(){var c=lsGet();if(c)return login(c,true);S.mode="sub";render();});
+})();
+</script></body></html>
